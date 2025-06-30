@@ -1,0 +1,30 @@
+path.resolve() is a method provided by Node.js's built-in path module. 
+It is used to resolve a sequence of paths or path segments into an absolute path.
+    An absolute path is the complete location of a file or folder from the root directory of the system or project.
+    In general, resolve means to figure out, find, or convert something unclear into something clear or final.
+      In the context of path.resolve():
+      It resolves (converts) relative paths into a single absolute path.
+      It understands . (current directory), .. (parent directory), and combines paths logically.
+
+enum:
+  An enum (short for enumeration) is a special data type used in many programming languages to define a set of named
+  constants. It helps make code more readable, organized, and type-safe, especially when working with values that are
+  limited to a fixed set of options.
+
+model:
+  A model is a representation of the data structure in your code — it defines how data will be stored in the database.
+
+module:
+  A module is simply a file or collection of code (like functions, variables, classes) that you can reuse in other 
+  parts of your program. Modules help you organize your code into smaller, manageable pieces.
+
+this keyword:
+  The this keyword in JavaScript is used to refer to the object that is executing the current function. It allows you 
+  to access object properties and methods from within the object itself.
+
+{...user} means:
+  "Create a shallow copy of all key-value pairs from the user object into a new object."
+  It spreads the properties of the user object into a new one.
+
+.toObject() 
+  method converts the Mongoose Document into a plain JavaScript object.
