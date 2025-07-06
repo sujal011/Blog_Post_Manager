@@ -5,22 +5,47 @@
     <title>Add New Blog</title>
   </head>
   <body>
-    <%- include("./partials/scripts") %>
+    <%- include("./partials/scripts") %> <%-include("./partials/nav") %>
 
     <div class="container mt-3">
-      <form>
+      <form action="/blog" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="coverImage" class="form-label">Cover Image</label>
+          <input
+            type="file"
+            class="form-control"
+            id="coverImage"
+            name="coverImage"
+          />
+        </div>
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
           <input
             type="text"
             class="form-control"
             id="title"
+            name="title"
             placeholder="Enter blog title"
           />
         </div>
+
+        <div class="mb-3">
+          <label for="body" class="form-label">Content</label>
+          <textarea
+            class="form-control"
+            id="body"
+            name="body"
+            rows="5"
+            placeholder="Write your blog content here"
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <button type="submit" class="btn btn-primary" id="addBlogBtn">
+            Submit
+          </button>
+        </div>
       </form>
     </div>
-
-    <%-include("./partials/nav") %>
   </body>
 </html>

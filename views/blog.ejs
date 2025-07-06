@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title><%= blog.title %></title>
+  </head>
+  <body>
+    <%- include("./partials/scripts") %> <%- include("./partials/nav") %>
+    <div class="container mt-3">
+      <div class="card mx-auto" style="max-width: 40rem">
+        <img
+          src="<%= blog.coverImageURL %>"
+          class="card-img-top"
+          alt="Cover Image"
+        />
+        <div class="card-body">
+          <h2 class="card-title"><%= blog.title %></h2>
+          <p class="card-text"><%= blog.body %></p>
+        </div>
+        <div class="container d-flex align-items-center gap-2 mt-3 mb-2">
+          <% if (blog.createdBy) { %>
+          <img
+            src="<%= blog.createdBy.profileImageURL ? (blog.createdBy.profileImageURL.startsWith('/') ? blog.createdBy.profileImageURL : '/' + blog.createdBy.profileImageURL) : '/images/user_avatar.png' %>"
+            class="rounded-circle"
+            alt="Author Image"
+            style="width: 50px; height: 50px; object-fit: cover"
+          />
+          <span class="fw-bold"
+            ><%= blog.createdBy.fullName || 'Unknown Author' %></span
+          >
+          <% } else { %>
+          <img
+            src="/images/user_avatar.png"
+            class="rounded-circle"
+            alt="Author Image"
+            style="width: 50px; height: 50px; object-fit: cover"
+          />
+          <span class="fw-bold">Unknown Author</span>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
