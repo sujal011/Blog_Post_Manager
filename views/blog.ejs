@@ -3,40 +3,130 @@
   <head>
     <%- include("./partials/head") %>
     <title><%= blog.title %></title>
+
+    <!-- Bootstrap Icons CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .blog-card {
+        max-width: 48rem;
+        border-radius: 1rem;
+        overflow: hidden;
+      }
+
+      .author-img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border: 2px solid #dee2e6;
+      }
+
+      .card-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .card-text {
+        font-size: 1.05rem;
+        line-height: 1.6;
+      }
+
+      .btn:hover {
+        transform: scale(1.05);
+        transition: 0.3s ease;
+      }
+
+      .add-comment-btn {
+        transition: 0.3s ease;
+      }
+
+      .add-comment-btn:hover {
+        background-color: #0d6efd;
+        color: #fff;
+      }
+    </style>
   </head>
   <body>
     <%- include("./partials/scripts") %> <%- include("./partials/nav") %>
-    <div class="container mt-3">
-      <div class="card mx-auto" style="max-width: 40rem">
-        <img
-          src="<%= blog.coverImageURL %>"
-          class="card-img-top"
-          alt="Cover Image"
-        />
-        <div class="card-body">
-          <h2 class="card-title"><%= blog.title %></h2>
-          <p class="card-text"><%= blog.body %></p>
-        </div>
-        <div class="container d-flex align-items-center gap-2 mt-3 mb-2">
+
+    <div class="container mt-5">
+      <div class="card shadow blog-card mx-auto bg-white">
+        <!-- Author Info -->
+        <div
+          class="card-header bg-white border-0 d-flex align-items-center gap-3 p-4"
+        >
           <% if (blog.createdBy) { %>
           <img
             src="<%= blog.createdBy.profileImageURL ? (blog.createdBy.profileImageURL.startsWith('/') ? blog.createdBy.profileImageURL : '/' + blog.createdBy.profileImageURL) : '/images/user_avatar.png' %>"
-            class="rounded-circle"
+            class="rounded-circle author-img"
             alt="Author Image"
-            style="width: 50px; height: 50px; object-fit: cover"
           />
-          <span class="fw-bold"
-            ><%= blog.createdBy.fullName || 'Unknown Author' %></span
-          >
+          <div>
+            <div class="fw-semibold fs-5">
+              <%= blog.createdBy.fullName || 'Unknown Author' %>
+            </div>
+            <div class="text-muted small">
+              <i class="bi bi-calendar-event"></i> <%=
+              blog.createdAt.toDateString() %>
+            </div>
+          </div>
           <% } else { %>
           <img
             src="/images/user_avatar.png"
-            class="rounded-circle"
+            class="rounded-circle author-img"
             alt="Author Image"
-            style="width: 50px; height: 50px; object-fit: cover"
           />
-          <span class="fw-bold">Unknown Author</span>
+          <div>
+            <div class="fw-semibold fs-5">Unknown Author</div>
+          </div>
           <% } %>
+        </div>
+
+        <!-- Blog Content -->
+        <% if (blog.coverImageURL) { %>
+        <img
+          src="<%= blog.coverImageURL %>"
+          class="img-fluid w-100"
+          alt="Cover Image"
+        />
+        <% } %>
+
+        <div class="card-body px-4 py-3">
+          <h2 class="card-title"><%= blog.title %></h2>
+          <p class="card-text"><%= blog.body %></p>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="px-4 pb-4">
+          <h3>Comments (<%= comments.length %>)</h3>
+          <% if (user) { %>
+          <form action="/comment/<%= blog._id %>" method="post" class="mb-3">
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                name="content"
+                placeholder="Enter Your Comment"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Add Comment</button>
+          </form>
+          <% } %> <% if (comments.length === 0) { %>
+          <div class="text-muted">No comments yet.</div>
+          <% } else { %> <% comments.forEach(comment => { %>
+          <div class="border rounded p-2 mb-2">
+            <strong><%= comment.createdBy?.fullName || 'Anonymous' %>:</strong>
+            <span><%= comment.content %></span>
+          </div>
+          <% }) %> <% } %>
         </div>
       </div>
     </div>
