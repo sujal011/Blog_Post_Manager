@@ -66,6 +66,11 @@
                 placeholder="Enter blog title"
                 required
               />
+              <div class="d-grid mt-2">
+                <button type="button" class="btn btn-outline-success" id="generate-ai-btn">
+                  <i class="bi bi-robot"></i> Generate with AI
+                </button>
+              </div>
             </div>
 
             <div class="mb-3">
@@ -80,6 +85,12 @@
                 placeholder="Write your blog content here..."
                 required
               ></textarea>
+              <div id="ai-loading" class="text-center mt-2" style="display:none;">
+                <div class="spinner-border text-success" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <span class="ms-2">Generating blog content...</span>
+              </div>
             </div>
 
             <div class="d-grid">
@@ -87,6 +98,36 @@
                 <i class="bi bi-upload"></i> Publish Blog
               </button>
             </div>
+          <script>
+            document.getElementById('generate-ai-btn').addEventListener('click', async function() {
+              const title = document.getElementById('title').value.trim();
+              if (!title) {
+                alert('Please enter a title before generating content.');
+                return;
+              }
+              const loading = document.getElementById('ai-loading');
+              loading.style.display = 'block';
+              try {
+                const response = await fetch('/blog/generate', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ title }),
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                  document.getElementById('body').value = data.data;
+                } else {
+                  alert(data.message || 'Failed to generate blog content.');
+                }
+              } catch (err) {
+                alert('Error generating blog content.');
+              } finally {
+                loading.style.display = 'none';
+              }
+            });
+          </script>
           </form>
         </div>
       </div>
