@@ -4,6 +4,8 @@ const path = require("path");
 const router = Router();
 const Comment = require("../models/comment");
 const { Blog } = require("../models/blog");
+const generateBlog  = require("../services/gemini");
+const { checkForAuthenticationCookie } = require("../middlewares/authentication");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -64,6 +66,32 @@ router.delete("/:id", async (req, res) => {
     return res
       .status(500)
       .json({ message: "Server error", error: error.message });
+  }
+});
+
+router.post("/generate",async(req,res) => {
+  const {title} = req.body;
+  try{
+  if (!title || title.trim() === "") {
+      return res.status(400).json({
+        status: "error",
+        message: "Title is required to generate a blog post",
+      });
+    }
+    
+    const result = await generateBlog(title);
+    return res.status(200).json( {
+      status: "success",
+      data: result,
+    });
+
+  }
+  catch(error){
+    return res.status(500).json({
+      status: "error",
+      message: "Failed to generate blog post",
+      error: error.message,
+    });
   }
 });
 
