@@ -1,7 +1,5 @@
 const JWT = require("jsonwebtoken");
 
-const secret = "heybuddyhowyoudoing???";
-
 function createTokenForUser(user) {
   const payload = {
     _id: user._id,
@@ -9,12 +7,12 @@ function createTokenForUser(user) {
     profileImageURL: user.profileImageURL,
     role: user.role,
   };
-  const token = JWT.sign(payload, secret);
+  const token = JWT.sign(payload, process.env.secret);
   return token;
 }
 
 function validateToken(token) {
-  const payload = JWT.verify(token, secret);
+  const payload = JWT.verify(token, process.env.secret);
   return payload;
 }
 
