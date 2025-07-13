@@ -13,7 +13,7 @@ const app = express();
 const PORT = 8000;
 
 mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/blog-post-manager")
+  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/blog_post_manager")
   .then((e) => console.log("mongodb connected"));
 
 app.set("view engine", "ejs");
