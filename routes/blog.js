@@ -35,7 +35,7 @@ router.get("/:id", async (req, res) => {
   });
 });
 
-router.post("/comment/:blogId", async (req, res) => {
+router.post("/blog/comment/:blogId", async (req, res) => {
   await Comment.create({
     content: req.body.content,
     blogId: req.params.blogId,
